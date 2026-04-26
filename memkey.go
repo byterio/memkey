@@ -140,6 +140,21 @@ func (mk *memkey) Keys() ([][]byte, error) {
 	return keys, nil
 }
 
+// Size returns the number of entries.
+func (mk *memkey) Size() int {
+	mk.mu.RLock()
+	defer mk.mu.RUnlock()
+	
+	ts := atomic.LoadUint32(&timestamp)
+	count := 0
+	for _, v := range mk.db {
+		if v.expiry == 0 || v.expiry > ts {
+			count++
+		}
+	}
+	return count
+}
+
 func startTimeStampUpdater() {
 	updaterOnce.Do(func() {
 		atomic.StoreUint32(&timestamp, uint32(time.Now().Unix()))
