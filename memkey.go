@@ -140,7 +140,7 @@ func (mk *memkey) Keys() ([][]byte, error) {
 	return keys, nil
 }
 
-// Size returns the number of entries.
+// Size returns the number of valid entries.
 func (mk *memkey) Size() int {
 	mk.mu.RLock()
 	defer mk.mu.RUnlock()
