@@ -1,4 +1,4 @@
-# memkey
+# Memkey
 
 [![Go Version][GoVer-Image]][GoDoc-Url] [![License][License-Image]][License-Url] [![GoDoc][GoDoc-Image]][GoDoc-Url] [![Go Report Card][ReportCard-Image]][ReportCard-Url]
 
@@ -10,7 +10,7 @@
 [License-Url]: https://github.com/byterio/memkey/blob/main/LICENSE
 [License-Image]: https://img.shields.io/github/license/byterio/memkey
 
-memkey is a lightweight, in-memory key-value store for Go.
+Memkey is a fast, lightweight in-memory key-value store for Go.
 
 ## Features
 
@@ -80,8 +80,8 @@ We welcome contributions! Fork the repository, make your changes, and submit a p
 
 ## Support
 
-If you enjoy using memkey, please consider giving it a star! Your support helps others discover the project and encourages further development.
+If you enjoy using Memkey, please consider giving it a star! Your support helps others discover the project and encourages further development.
 
 ## License
 
-memkey is open-source software released under the Apache License, Version 2.0. You can find a copy of the license in the [LICENSE](https://github.com/byterio/memkey/blob/main/LICENSE) file.
+Memkey is open-source software released under the Apache License, Version 2.0. You can find a copy of the license in the [LICENSE](https://github.com/byterio/memkey/blob/main/LICENSE) file.
