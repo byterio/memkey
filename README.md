@@ -1,13 +1,23 @@
 # memkey
 
-memkey is a small, in-memory key-value store for Go.
+[![Go Version][GoVer-Image]][GoDoc-Url] [![License][License-Image]][License-Url] [![GoDoc][GoDoc-Image]][GoDoc-Url] [![Go Report Card][ReportCard-Image]][ReportCard-Url]
+
+[GoVer-Image]: https://img.shields.io/badge/Go-1.26%2B-blue
+[GoDoc-Url]: https://pkg.go.dev/github.com/byterio/memkey
+[GoDoc-Image]: https://pkg.go.dev/badge/github.com/byterio/memkey.svg
+[ReportCard-Url]: https://goreportcard.com/report/github.com/byterio/memkey
+[ReportCard-Image]: https://goreportcard.com/badge/github.com/byterio/memkey?style=flat
+[License-Url]: https://github.com/byterio/memkey/blob/main/LICENSE
+[License-Image]: https://img.shields.io/github/license/byterio/memkey
+
+memkey is a lightweight, in-memory key-value store for Go.
 
 ## Features
 
-- Simple in-memory key-value store (map-backed).
-- Optional TTL per key.
-- Background cleanup to remove expired keys.
-- Concurrent-safe.
+- 🚀 Fast, lightweight in-memory key-value store.
+- ⏰ Optional TTL per key.
+- ✨ Background cleanup to remove expired keys.
+- 🔐 Concurrent-safe.
 
 ## Installation
 
@@ -32,6 +42,7 @@ func main() {
     defer mk.Close()
 
     mk.Set("ping", []byte("pong"), 5*time.Second)
+    mk.Set("foo", []byte("bar"), 0)
 
     if mk.Has("ping") {
         v, _ := mk.Get("ping")
@@ -39,11 +50,27 @@ func main() {
     }
 
     time.Sleep(6 * time.Second)
+
+    if mk.Has("foo") {
+        v, _ := mk.Get("foo")
+        fmt.Println(string(v)) // prints "bar"
+    }
+
     if !mk.Has("ping") {
         fmt.Println("expired")
     }
 }
 ```
+
+## Benchmarks
+
+### Benchmark on an Intel Core i7-6700HQ CPU @ 2.60GHz:
+
+| Benchmark                       | Iterations | ns/op | B/op | allocs/op |
+| ------------------------------- | ---------: | ----: | ---: | --------: |
+| Benchmark_Memkey_Set-8          | 12,485,835 | 91.72 |    4 |         1 |
+| Benchmark_Memkey_Get-8          | 30,052,064 | 39.77 |    0 |         0 |
+| Benchmark_Memkey_SetAndDelete-8 |  6,038,889 | 194.4 |    4 |         1 |
 
 ## Feedback and Contributions
 
