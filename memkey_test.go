@@ -1,4 +1,4 @@
-// Copyright 2025 Byterio
+// Copyright 2026 Byterio
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,8 +46,10 @@ func Test_Memkey_Set(t *testing.T) {
 	err := memkey.Set(key, val, 0)
 	require.NoError(t, err)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
 }
 
 func Test_Memkey_Set_Override(t *testing.T) {
@@ -61,8 +63,11 @@ func Test_Memkey_Set_Override(t *testing.T) {
 	err = memkey.Set(key, val, 0)
 	require.NoError(t, err)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
+
 }
 
 func Test_Memkey_Get(t *testing.T) {
@@ -77,8 +82,10 @@ func Test_Memkey_Get(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, val, result)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
 }
 
 func Test_Memkey_Set_Expiration(t *testing.T) {
@@ -95,8 +102,10 @@ func Test_Memkey_Set_Expiration(t *testing.T) {
 	require.NoError(t, err)
 	require.Zero(t, len(result))
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 }
 
 func Test_Memkey_Set_Long_Expiration_with_Keys(t *testing.T) {
@@ -107,21 +116,27 @@ func Test_Memkey_Set_Long_Expiration_with_Keys(t *testing.T) {
 		exp    = 5 * time.Second
 	)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 	err = memkey.Set(key, val, exp)
 	require.NoError(t, err)
 	time.Sleep(1100 * time.Millisecond)
 	keys, err = memkey.Keys()
+	size = memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
 	time.Sleep(4000 * time.Millisecond)
 	result, err := memkey.Get(key)
 	require.NoError(t, err)
 	require.Zero(t, len(result))
 	keys, err = memkey.Keys()
+	size = memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 }
 
 func Test_Memkey_Get_NotExist(t *testing.T) {
@@ -130,8 +145,10 @@ func Test_Memkey_Get_NotExist(t *testing.T) {
 	require.NoError(t, err)
 	require.Zero(t, len(result))
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 }
 
 func Test_Memkey_Delete(t *testing.T) {
@@ -143,16 +160,20 @@ func Test_Memkey_Delete(t *testing.T) {
 	err := memkey.Set(key, val, 0)
 	require.NoError(t, err)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
 	err = memkey.Delete(key)
 	require.NoError(t, err)
 	result, err := memkey.Get(key)
 	require.NoError(t, err)
 	require.Zero(t, len(result))
 	keys, err = memkey.Keys()
+	size = memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 }
 
 func Test_Memkey_Reset(t *testing.T) {
@@ -163,8 +184,10 @@ func Test_Memkey_Reset(t *testing.T) {
 	err = memkey.Set("ping2", val, 0)
 	require.NoError(t, err)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 2)
+	require.Equal(t, size, 2)
 	err = memkey.Reset()
 	require.NoError(t, err)
 	result, err := memkey.Get("ping1")
@@ -174,8 +197,10 @@ func Test_Memkey_Reset(t *testing.T) {
 	require.NoError(t, err)
 	require.Zero(t, len(result))
 	keys, err = memkey.Keys()
+	size = memkey.Size()
 	require.NoError(t, err)
 	require.Nil(t, keys)
+	require.Equal(t, size, 0)
 }
 
 func Test_Memkey_Close(t *testing.T) {
@@ -195,8 +220,10 @@ func Test_Memkey_Has(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, true, result)
 	keys, err := memkey.Keys()
+	size := memkey.Size()
 	require.NoError(t, err)
 	require.Len(t, keys, 1)
+	require.Equal(t, size, 1)
 }
 
 func Benchmark_Memkey_Set(b *testing.B) {
