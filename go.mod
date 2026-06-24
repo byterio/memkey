@@ -1,6 +1,6 @@
 module github.com/byterio/memkey
 
-go 1.25.2
+go 1.26.4
 
 require github.com/stretchr/testify v1.11.1
 
